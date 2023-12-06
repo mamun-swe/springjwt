@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.springjwt.dtos.SignInDto;
+import com.example.springjwt.dtos.UserDto;
 import com.example.springjwt.exceptions.Response;
 import com.example.springjwt.models.Users;
 import com.example.springjwt.services.SignInService;
@@ -50,10 +51,16 @@ public class SignInController {
                 return Response.Error(HttpStatus.CONFLICT, "Name exist.", errors);
             }
 
-            this.signInService.createUser(body);
+            /** Documents for user creation */
+            UserDto documents = new UserDto();
+            documents.setUsername(userName);
+            documents.setName(body.getName());
+            documents.setEmail(body.getEmail());
+            documents.setPassword(body.getPassword());
 
-            System.out.println(isEmailExist);
-            return Response.Success(HttpStatus.OK, "Sign in response.");
+            this.signInService.createUser(documents);
+
+            return Response.Success(HttpStatus.OK, "Account created.");
         } catch (Exception e) {
             return Response.InternalServerError();
         }

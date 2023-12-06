@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.springjwt.dtos.SignInDto;
+import com.example.springjwt.dtos.UserDto;
 import com.example.springjwt.models.Users;
 import com.example.springjwt.repositories.UserRepository;
 
@@ -30,14 +30,13 @@ public class SignInService {
     }
 
     /** create new record */
-    public void createUser(SignInDto documents) {
-
+    public void createUser(UserDto documents) {
         Users user = new Users();
-        // user.setUsername(documents.getUsername());
+        user.setUsername(documents.getUsername());
         user.setName(documents.getName());
         user.setEmail(documents.getEmail());
         user.setPassword(documents.getPassword());
 
-        System.out.println(user);
+        this.userRepository.save(user);
     }
 }
